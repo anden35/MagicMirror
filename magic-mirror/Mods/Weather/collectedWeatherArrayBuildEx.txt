@@ -1,0 +1,43 @@
+
+collectWeaterData
+    location
+    currentWeather
+        currentTemperatureF
+        currentTemperatureC
+        currentApparentTemperature
+        humidity
+        condition
+        windSpeed
+        dic
+        icon
+
+    forecast(per day)
+        temperatureHighF
+        temperatureHighC
+        temperatureLowF
+        temperatureLowC
+        condition
+        precipitationChance
+        icon
+        tomorrow
+            temperature
+                high
+                    f
+                    c
+                low
+                    f
+                    c
+            condition
+            pop
+            icon
+        nextday
+            temperature
+                high
+                    f
+                    c
+                low
+                    f
+                    c
+            condition
+            pop
+            icon

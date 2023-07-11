@@ -1,0 +1,113 @@
+<?php
+
+class Weather{
+     
+    private $json_cfg;
+    private $css_builder;
+    private $location;
+    private $api_key;
+    private $url;
+    private $config;
+    private $weather_json;
+    private $weather_data;
+    private $display;
+    
+    public $weather_alerts_array;
+    
+
+    function __construct($css_builder, $cfg){
+        $this->json_cfg = $cfg->buildcfg(get_class($this));
+        $this->css_builder = $css_builder;
+        $this->setDisplay($this->json_cfg);
+        foreach ($this->json_cfg->settings->locations as $location){
+            $this->setKey($this->json_cfg);
+            $this->setUrl($this->api_key,$location->place);
+            $this->weather_json = json_decode(file_get_contents($this->url));
+            $this->weather_data = $this->collectData($this->weather_json);//Better name....ya needs a better name
+            $this->setAlerts($this->weather_json);
+            $this->displayWeather($this->weather_data);
+        }
+
+    }
+
+    private function setKey($config){
+        $this->api_key = $config->settings->APIinfo->APIkey;
+    }
+  
+ 
+    private function setUrl($key, $locaion){
+        $this->url = 'http://api.wunderground.com/api/'.$key.'/geolookup/alerts/conditions/forecast/q/'.$locaion.'.json';//NEED TO UPDATE THIS!!!!!
+    }
+        
+    private function setDisplay($config){
+        //read in the display file
+        include('DisplayThemes/'.$config->settings->displayTheme.'.php');
+    }
+    
+    public function setAlerts($weather_json){
+        //makes array of descriptions of all alerts
+        if ($weather_json->alerts){
+            foreach ( $weather_json->alerts as $alert){
+                $all_alerts[] = $alert->description;
+            }
+        $this->weather_alerts_array =  $all_alerts;
+        }//Should there be a msg here if there is no alets? like "No alerts at this time"
+    }
+        
+    public function echoAlertsAsString(){
+        if ($this->weather_alerts_array){
+            $string_all = implode(" - ",$this->weather_alerts_array);
+            echo $string_all;
+        }
+    }
+  
+    public function getAlertsAsString(){
+        if ($this->weather_alerts_array){
+            $string_all = implode(" - ",$this->weather_alerts_array);
+            return $string_all;
+        }
+    }
+  
+    private function collectData($weather_json){
+        $data = $weather_json;
+        $weather_info['today'] = $this->collectDataFromjson($data->forecast->simpleforecast->forecastday[0]);
+        $weather_info['tomorrow'] = $this->collectDataFromjson($data->forecast->simpleforecast->forecastday[1]);
+        $weather_info['next_day'] = $this->collectDataFromjson($data->forecast->simpleforecast->forecastday[2]);
+        $weather_info['location']['city'] = $data->location->city;
+        $weather_info['today']['con_current'] = $data->current_observation->weather;
+        $weather_info['today']['t_current_f'] = $data->current_observation->temp_f;
+        $weather_info['today']['t_current_c'] = $data->current_observation->temp_c;
+        $weather_info['today']['wind_mph'] = $data->current_observation->wind_mph;
+        $weather_info['today']['wind_degrees'] = $data->current_observation->wind_degrees;
+        return $weather_info;
+        
+    }
+  
+    private function collectDataFromjson($weater){
+        $weather_info['t_high_f'] = $weater->high->fahrenheit;
+        $weather_info['t_high_c'] = $weater->high->celsius;
+        $weather_info['t_low_f'] = $weater->low->fahrenheit;
+        $weather_info['t_low_c'] = $weater->low->celsius;
+        $weather_info['con'] = $weater->conditions;
+        $weather_info['pop'] = $weater->pop;
+        $weather_info['icon'] = $weater->icon;
+        return $weather_info;
+  }
+
+    private function displayWeather( $weather_data){
+        //MAKE ALLLLLLLLL THEMES HAVE THIS FUNCATION
+        $this->css_builder->buildcss(__FUNCTION__ , $this->json_cfg);
+        echo ('<div class="'. __FUNCTION__ . ' ">');
+        display($weather_data);
+        echo ('</div>');
+    }
+  
+    public function displayAlerts(){
+        echo('<div color="red" size="6">');
+        echo($this->echoAlertsAsString());
+        echo('</div>');
+    }
+  
+}
+
+?>

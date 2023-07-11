@@ -1,0 +1,12 @@
+{
+    "settings":{
+        "temp":"hold"
+    },
+    "css":{
+        "displayClock" : {
+            "font-size":"small",
+            "position":"absolute",
+            "right":"0"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "settings":{
+        "displayTheme":"Long"
+    },
+    "css":{
+        "displayClock" : {
+            "font-size":"x-large",
+            "position":"absolute",
+            "left":"50%"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "stations":[
+        {"station":"KDTS"},
+        {"station":"KCEW"},
+        {"station":"KVPS"}
+        ],
+    "css":{
+        "metar" : {
+            "font-size":"x-small",
+            "position":"absolute",
+            "bottom":"0",
+            "right":"0",
+            "width":"300"
+            
+        },
+        "taf" : {
+            "font-size":"large",
+            "color":"blue"
+        }
+    }
+}

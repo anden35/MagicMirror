@@ -1,0 +1,20 @@
+{
+    "quotes":[
+        {"quote":"Do or do not, there is no try","author":"Yoda"},
+        {"quote":"Never tell people how to do things. Tell them what to do and they will surprise you with their ingenuity.","author":"George S. Patton"},
+        {"quote":"The object of war is not to die for your country but to make the other bastard die for his.","author":"George S. Patton"},
+        {"quote":"The truth is, everyone is going to hurt you. You just got to find the ones worth suffering for","author":"Bob Marley"},
+        {"quote":"Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.","author":"Albert Einstein"},
+        {"quote":"JUST KEEP SWIMMING. JUST KEEP SWIMMING. KIST KEEP SWIMMING. ","author":"Dory - Finding Nemo"}
+        ],
+    "css":{
+        "displayquote" : {
+            "font-size":"medium",
+            "position":"absolute",
+            "top":"0",
+            "right":"0",
+            "width":"300"
+            
+        }
+    }
+}

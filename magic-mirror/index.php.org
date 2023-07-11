@@ -1,0 +1,26 @@
+<?php
+
+
+
+spl_autoload_register(function ($class_name) {
+    if (file_exists('Core/' . $class_name . '.php')){
+        include 'Core/' . $class_name . '.php';
+    }else{
+        include 'Mods/' . $class_name . "/" . $class_name . '.php';
+    }
+});
+
+echo ('<style> body {background:black; color:white } </style>');
+
+
+?>
+
+
+<?php
+$cssbuilder = new cssbuilder();
+$makecfg = new makecfg();
+
+
+
+
+?>
